@@ -97,26 +97,19 @@ body {
     border-bottom: 2px solid #FFE797; /* THEME: Highlight Yellow underline */
 }
 .header-nav a i {
-    margin-right: 3px;
+    margin-right: 4px;
 }
 
 .header-profile {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 15px;
-    margin-left: auto;
 }
 
 .header-profile i {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #ffffff; /* White icons */
     cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.header-profile i:hover {
-    transform: scale(1.08);
 }
 
 .header-profile span {
@@ -369,6 +362,4 @@ table#records-table tr td:last-child { width:160px; }
 .alert-item.alert-warning .alert-text strong { color: #FCB53B; }
 
 .alert-item.alert-info .alert-icon { color: #84994F; background-color: #f0f3e9; }
-
 .alert-item.alert-info .alert-text strong { color: #84994F; }
-
