@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Management - Waste Analytics</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="dashboard-header">
+    <div class="header-logo">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.7FZwq6jY3y6N8DpbxpyIagHaHa?pid=Api&P=0&h=180" alt="Partner Logo" class="header-logo-img-alt">
+      <h1>Manila Waste Analytics</h1>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+      <a href="data-management.html"><i class="fa-solid fa-file-csv"></i> Data Management</a>
+      <a href="forecasting.html"><i class="fa-solid fa-chart-line"></i> Forecasting</a>
+      <a href="clustering.html"><i class="fa-solid fa-users-viewfinder"></i> Clustering</a>
+      <a href="reports.html"><i class="fa-solid fa-file-lines"></i> Reports</a>
+      <a href="feedback.html"><i class="fa-solid fa-bullhorn"></i> Feedback</a>
+      <a href="admin-dashboard.html"><i class="fa-solid fa-shield"></i> Admin</a>
+      <a href="user-management.html" class="active"><i class="fa-solid fa-users"></i> Users</a>
+    </nav>
+    <div class="header-profile">
+      <i class="fa-solid fa-user-circle" id="user-profile-icon" style="cursor: pointer; transition: transform 0.2s;" title="Click to view profile"></i>
+    </div>
+  </header>
+
+  <script>
+    document.getElementById('user-profile-icon').addEventListener('click', function(){
+      window.location.href = 'user-profile.html';
+    });
+  </script>
+
+  <main class="dashboard-container">
+    <h2 class="dashboard-title">User Management</h2>
+
+    <!-- Add New User Section -->
+    <div class="dashboard-card" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div>
+        <h3><i class="fa-solid fa-user-plus"></i> Add New User</h3>
+        <form class="form-grid" id="add-user-form">
+          <label>
+            Full Name
+            <input id="um-name" type="text" placeholder="Full Name" required>
+          </label>
+          <label>
+            Email
+            <input id="um-email" type="email" placeholder="email@example.com" required>
+          </label>
+          <label>
+            Username
+            <input id="um-username" type="text" placeholder="Username" required>
+          </label>
+          <label>
+            Role
+            <select id="um-role" required>
+              <option value="">-- Select Role --</option>
+              <option value="Admin">Admin</option>
+              <option value="Staff">Staff</option>
+              <option value="Researcher">Researcher</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select id="um-status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Suspended">Suspended</option>
+            </select>
+          </label>
+          <label>
+            Department
+            <input id="um-dept" type="text" placeholder="Department (optional)">
+          </label>
+          <button type="button" class="btn" id="um-add-btn" style="grid-column:1/-1"><i class="fa-solid fa-plus"></i> Add User</button>
+        </form>
+      </div>
+
+      <!-- Quick Stats -->
+      <div>
+        <h3><i class="fa-solid fa-chart-pie"></i> User Statistics</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:#FFFACD;padding:12px;border-radius:4px;text-align:center;border:1px solid #DDD">
+            <div style="font-size:28px;font-weight:bold;color:#84994F" id="stat-total-users">12</div>
+            <div style="font-size:12px;color:#666">Total Users</div>
+          </div>
+          <div style="background:#E0F5FF;padding:12px;border-radius:4px;text-align:center;border:1px solid #DDD">
+            <div style="font-size:28px;font-weight:bold;color:#0066CC" id="stat-active-users">10</div>
+            <div style="font-size:12px;color:#666">Active Users</div>
+          </div>
+          <div style="background:#F0FFF0;padding:12px;border-radius:4px;text-align:center;border:1px solid #DDD">
+            <div style="font-size:28px;font-weight:bold;color:#339933" id="stat-admins">2</div>
+            <div style="font-size:12px;color:#666">Admin Accounts</div>
+          </div>
+          <div style="background:#FFF0F5;padding:12px;border-radius:4px;text-align:center;border:1px solid #DDD">
+            <div style="font-size:28px;font-weight:bold;color:#A72703" id="stat-inactive-users">2</div>
+            <div style="font-size:12px;color:#666">Inactive / Suspended</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search -->
+    <div class="dashboard-card" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+      <label style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:12px;font-weight:bold">Filter by Role</span>
+        <select id="filter-role">
+          <option value="">All Roles</option>
+          <option value="Admin">Admin</option>
+          <option value="Staff">Staff</option>
+          <option value="Researcher">Researcher</option>
+          <option value="Viewer">Viewer</option>
+        </select>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:12px;font-weight:bold">Filter by Status</span>
+        <select id="filter-status">
+          <option value="">All Statuses</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Suspended">Suspended</option>
+        </select>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:12px;font-weight:bold">Search</span>
+        <input id="search-users" type="text" placeholder="Name, email, or username">
+      </label>
+      <button class="btn" id="filter-btn" style="align-self:flex-end"><i class="fa-solid fa-filter"></i> Apply Filter</button>
+    </div>
+
+    <!-- Users Table -->
+    <div class="dashboard-card">
+      <h3><i class="fa-solid fa-table"></i> Users</h3>
+      <table class="table-wrap">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-tbody">
+          <!-- populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Activity Log -->
+    <div class="dashboard-card" style="margin-top:16px">
+      <h3><i class="fa-solid fa-history"></i> User Account Activity Log</h3>
+      <table class="table-wrap">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="activity-table-tbody">
+          <!-- populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Role Permissions Matrix (Info) -->
+    <div class="dashboard-card" style="margin-top:16px">
+      <h3><i class="fa-solid fa-shield"></i> Role Permissions Matrix</h3>
+      <table class="table-wrap" style="font-size:13px">
+        <thead>
+          <tr>
+            <th>Permission</th>
+            <th>Admin</th>
+            <th>Staff</th>
+            <th>Researcher</th>
+            <th>Viewer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>View Dashboard</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td></tr>
+          <tr><td><strong>Upload Data</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td></tr>
+          <tr><td><strong>Generate Reports</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td></tr>
+          <tr><td><strong>Manage Users</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td></tr>
+          <tr><td><strong>System Configuration</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td></tr>
+          <tr><td><strong>Manage Roles</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td></tr>
+          <tr><td><strong>View Activity Logs</strong></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-solid fa-check" style="color:#339933"></i></td><td style="text-align:center"><i class="fa-times" style="color:#A72703"></i></td><td style="text-align:center"><i class="fa-solid fa-times" style="color:#A72703"></i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <footer style="text-align:center;padding:16px;color:#999;font-size:12px;margin-top:32px;border-top:1px solid #EEE">
+    <p>Manila Waste Analytics &copy; 2025 | User Management System</p>
+  </footer>
+
+  <!-- Modal for edit/detail view -->
+  <div id="user-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:white;border-radius:8px;padding:24px;max-width:500px;width:90%">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h2 id="modal-title">User Details</h2>
+        <button style="background:none;border:none;font-size:20px;cursor:pointer" onclick="closeUserModal()">&times;</button>
+      </div>
+      <div class="form-grid" id="modal-content">
+        <!-- populated by JS -->
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+        <button class="btn" id="modal-save-btn"><i class="fa-solid fa-save"></i> Save</button>
+        <button class="btn" style="background:#999" onclick="closeUserModal()"><i class="fa-solid fa-times"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // Demo users data
+      let users = [
+        {id:1, name:'Maria Santos', email:'maria@example.com', username:'msantos', role:'Admin', dept:'Administration', status:'Active', lastLogin:'2025-11-12 14:32'},
+        {id:2, name:'Juan Dela Cruz', email:'juan@example.com', username:'jdelacruz', role:'Staff', dept:'Operations', status:'Active', lastLogin:'2025-11-12 13:15'},
+        {id:3, name:'Ana Reyes', email:'ana@example.com', username:'areyes', role:'Researcher', dept:'Analytics', status:'Active', lastLogin:'2025-11-12 12:45'},
+        {id:4, name:'Carlos Mendez', email:'carlos@example.com', username:'cmendez', role:'Staff', dept:'Operations', status:'Active', lastLogin:'2025-11-11 16:20'},
+        {id:5, name:'Rosa Garcia', email:'rosa@example.com', username:'rgarcia', role:'Viewer', dept:'Management', status:'Active', lastLogin:'2025-11-11 10:30'},
+        {id:6, name:'Pedro Lopez', email:'pedro@example.com', username:'plopez', role:'Staff', dept:'Operations', status:'Inactive', lastLogin:'2025-11-08 14:10'},
+        {id:7, name:'Sofia Diaz', email:'sofia@example.com', username:'sdiaz', role:'Researcher', dept:'Analytics', status:'Active', lastLogin:'2025-11-12 11:05'},
+        {id:8, name:'Miguel Torres', email:'miguel@example.com', username:'mtorres', role:'Admin', dept:'Administration', status:'Active', lastLogin:'2025-11-12 08:45'},
+        {id:9, name:'Isabel Fernandez', email:'isabel@example.com', username:'ifernandez', role:'Staff', dept:'Operations', status:'Suspended', lastLogin:'2025-11-05 15:30'},
+        {id:10, name:'Luis Ramirez', email:'luis@example.com', username:'lramirez', role:'Viewer', dept:'Management', status:'Active', lastLogin:'2025-11-12 09:20'},
+      ];
+
+      let activityLog = [
+        {ts:'2025-11-12 15:10:00', user:'Maria Santos', action:'Added User', details:'New user: Pedro Aguilar (Researcher)'},
+        {ts:'2025-11-12 14:45:30', user:'Maria Santos', action:'Updated Role', details:'Changed Juan Dela Cruz role from Staff to Senior Staff'},
+        {ts:'2025-11-12 14:20:15', user:'Miguel Torres', action:'Suspended User', details:'Suspended Isabel Fernandez due to inactivity policy'},
+        {ts:'2025-11-12 13:55:00', user:'Maria Santos', action:'Password Reset', details:'Reset password for Pedro Lopez'},
+        {ts:'2025-11-12 13:10:45', user:'Miguel Torres', action:'Granted Permission', details:'Enabled advanced analytics access for Ana Reyes'},
+        {ts:'2025-11-11 16:32:20', user:'Maria Santos', action:'Removed User', details:'Deleted account: deprecated_user01'},
+      ];
+
+      // Render users table
+      function renderUsersTable(filterRole='', filterStatus='', search=''){
+        const tbody = document.getElementById('users-table-tbody');
+        tbody.innerHTML = '';
+
+        let filtered = users.filter(u=>{
+          const roleMatch = !filterRole || u.role === filterRole;
+          const statusMatch = !filterStatus || u.status === filterStatus;
+          const searchMatch = !search || u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase()) || u.username.toLowerCase().includes(search.toLowerCase());
+          return roleMatch && statusMatch && searchMatch;
+        });
+
+        filtered.forEach(u=>{
+          const tr = document.createElement('tr');
+          const statusColor = u.status==='Active'?'#339933':(u.status==='Inactive'?'#FFB700':'#A72703');
+          tr.innerHTML = `
+            <td>${escapeHtml(u.name)}</td>
+            <td>${escapeHtml(u.email)}</td>
+            <td><code style="background:#F9F9F9;padding:2px 4px;border-radius:2px;font-size:11px">${escapeHtml(u.username)}</code></td>
+            <td><span style="background:#F0F0F0;padding:2px 6px;border-radius:3px;font-size:11px">${escapeHtml(u.role)}</span></td>
+            <td>${escapeHtml(u.dept||'--')}</td>
+            <td><span style="color:${statusColor};font-weight:bold;font-size:12px">${escapeHtml(u.status)}</span></td>
+            <td style="font-size:12px">${escapeHtml(u.lastLogin)}</td>
+            <td style="white-space:nowrap">
+              <button class="btn btn-small" data-action="edit" data-id="${u.id}"><i class="fa-solid fa-edit"></i> Edit</button>
+              <button class="btn btn-small" data-action="delete" data-id="${u.id}" style="background:#A72703"><i class="fa-solid fa-trash"></i> Delete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Update stats
+        updateStats();
+      }
+
+      function updateStats(){
+        const total = users.length;
+        const active = users.filter(u=>u.status==='Active').length;
+        const admins = users.filter(u=>u.role==='Admin').length;
+        const inactive = users.filter(u=>u.status==='Inactive'||u.status==='Suspended').length;
+        document.getElementById('stat-total-users').textContent = total;
+        document.getElementById('stat-active-users').textContent = active;
+        document.getElementById('stat-admins').textContent = admins;
+        document.getElementById('stat-inactive-users').textContent = inactive;
+      }
+
+      // Render activity log
+      function renderActivityLog(){
+        const tbody = document.getElementById('activity-table-tbody');
+        tbody.innerHTML = '';
+        activityLog.forEach(log=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-size:12px">${escapeHtml(log.ts)}</td>
+            <td>${escapeHtml(log.user)}</td>
+            <td><strong>${escapeHtml(log.action)}</strong></td>
+            <td style="font-size:12px">${escapeHtml(log.details)}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+      // Add user
+      document.getElementById('um-add-btn').addEventListener('click',function(){
+        const name = document.getElementById('um-name').value.trim();
+        const email = document.getElementById('um-email').value.trim();
+        const username = document.getElementById('um-username').value.trim();
+        const role = document.getElementById('um-role').value;
+        const dept = document.getElementById('um-dept').value.trim();
+
+        if(!name||!email||!username||!role){
+          alert('Please fill in all required fields.');
+          return;
+        }
+
+        const newId = Math.max(...users.map(u=>u.id))+1;
+        const today = new Date();
+        users.push({
+          id:newId, name, email, username, role, dept, status:'Active',
+          lastLogin: today.toISOString().slice(0,16).replace('T',' ')
+        });
+
+        // Log activity
+        activityLog.unshift({
+          ts: new Date().toISOString().slice(0,19).replace('T',' '),
+          user:'Current Admin',
+          action:'Added User',
+          details:`New user: ${name} (${role})`
+        });
+
+        // Clear form
+        document.getElementById('um-name').value = '';
+        document.getElementById('um-email').value = '';
+        document.getElementById('um-username').value = '';
+        document.getElementById('um-role').value = '';
+        document.getElementById('um-dept').value = '';
+
+        alert('User added successfully!');
+        renderUsersTable();
+        renderActivityLog();
+      });
+
+      // Filter users
+      document.getElementById('filter-btn').addEventListener('click',function(){
+        const role = document.getElementById('filter-role').value;
+        const status = document.getElementById('filter-status').value;
+        const search = document.getElementById('search-users').value;
+        renderUsersTable(role, status, search);
+      });
+
+      // User table actions (edit/delete via event delegation)
+      document.getElementById('users-table-tbody').addEventListener('click',function(ev){
+        const btn = ev.target.closest('button');
+        if(!btn) return;
+
+        const action = btn.dataset.action;
+        const id = Number(btn.dataset.id);
+        const user = users.find(u=>u.id===id);
+
+        if(action==='edit'){
+          openUserModal(user);
+        } else if(action==='delete'){
+          if(confirm(`Delete user ${user.name}?`)){
+            users = users.filter(u=>u.id!==id);
+            activityLog.unshift({
+              ts: new Date().toISOString().slice(0,19).replace('T',' '),
+              user:'Current Admin',
+              action:'Removed User',
+              details:`Deleted account: ${user.name}`
+            });
+            renderUsersTable();
+            renderActivityLog();
+          }
+        }
+      });
+
+      // Modal functions
+      window.openUserModal = function(user){
+        const modal = document.getElementById('user-modal');
+        const content = document.getElementById('modal-content');
+        document.getElementById('modal-title').textContent = `Edit: ${user.name}`;
+
+        content.innerHTML = `
+          <label>Name <input type="text" id="modal-name" value="${escapeHtml(user.name)}"></label>
+          <label>Email <input type="email" id="modal-email" value="${escapeHtml(user.email)}"></label>
+          <label>Username <input type="text" id="modal-username" value="${escapeHtml(user.username)}"></label>
+          <label>Role <select id="modal-role">
+            <option value="Admin" ${user.role==='Admin'?'selected':''}>Admin</option>
+            <option value="Staff" ${user.role==='Staff'?'selected':''}>Staff</option>
+            <option value="Researcher" ${user.role==='Researcher'?'selected':''}>Researcher</option>
+            <option value="Viewer" ${user.role==='Viewer'?'selected':''}>Viewer</option>
+          </select></label>
+          <label>Department <input type="text" id="modal-dept" value="${escapeHtml(user.dept||'')}"></label>
+          <label>Status <select id="modal-status">
+            <option value="Active" ${user.status==='Active'?'selected':''}>Active</option>
+            <option value="Inactive" ${user.status==='Inactive'?'selected':''}>Inactive</option>
+            <option value="Suspended" ${user.status==='Suspended'?'selected':''}>Suspended</option>
+          </select></label>
+        `;
+
+        const saveBtn = document.getElementById('modal-save-btn');
+        saveBtn.onclick = function(){
+          const updatedUser = users.find(u=>u.id===user.id);
+          if(updatedUser){
+            updatedUser.name = document.getElementById('modal-name').value;
+            updatedUser.email = document.getElementById('modal-email').value;
+            updatedUser.username = document.getElementById('modal-username').value;
+            updatedUser.role = document.getElementById('modal-role').value;
+            updatedUser.dept = document.getElementById('modal-dept').value;
+            updatedUser.status = document.getElementById('modal-status').value;
+
+            activityLog.unshift({
+              ts: new Date().toISOString().slice(0,19).replace('T',' '),
+              user:'Current Admin',
+              action:'Updated User',
+              details:`Modified: ${updatedUser.name}`
+            });
+
+            alert('User updated successfully!');
+            renderUsersTable();
+            renderActivityLog();
+            closeUserModal();
+          }
+        };
+
+        modal.style.display = 'flex';
+      };
+
+      window.closeUserModal = function(){
+        document.getElementById('user-modal').style.display = 'none';
+      };
+
+      // Initial render
+      renderUsersTable();
+      renderActivityLog();
+    })();
+  </script>
+</body>
+</html>
