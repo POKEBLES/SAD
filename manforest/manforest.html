@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manforest JOMS - Capstone Proposal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Corporate Neutral (Slate & Blue) -->
+    <!-- Application Structure Plan: A single-page, multi-section "interactive pitch" of the capstone proposal. Uses a top nav to link to sections: Problem, Solution, Features, Analytics, and Impact. This structure is chosen to make the *proposal itself* easily consumable by a stakeholder or professor, translating the document's sections into logical web sections. -->
+    <!-- Visualization & Content Choices: [Report Info: Manual Quotation Problem -> Goal: Simulate Solution -> Viz: HTML/JS Mock-up Calculator -> Interaction: User input (w, h) -> Justification: Demonstrates "Dynamic Quotation" objective 3.2.2 -> Library: Vanilla JS], [Report Info: Production Tracking -> Goal: Simulate Solution -> Viz: HTML/CSS Stepper -> Interaction: Button click advances state -> Justification: Demonstrates "Production Monitoring" objective 3.2.3 -> Library: Vanilla JS], [Report Info: Analytics Objective 3.2.4 -> Goal: Show change/compare -> Viz: Line/Bar Charts -> Interaction: Hover tooltips -> Justification: Directly visualizes the proposed analytics -> Library: Chart.js] -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: tailwind.colors.blue,
+                        secondary: tailwind.colors.slate,
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-secondary-50 font-sans text-secondary-800">
+    
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-primary-600">FOURMULA</div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="nav-link text-secondary-600 hover:text-primary-600">Home</a>
+                <a href="#problem" class="nav-link text-secondary-600 hover:text-primary-600">The Problem</a>
+                <a href="#solution" class="nav-link text-secondary-600 hover:text-primary-600">The Solution</a>
+                <a href="#features" class="nav-link text-secondary-600 hover:text-primary-600">Core Features</a>
+                <a href="#analytics" class="nav-link text-secondary-600 hover:text-primary-600">Analytics</a>
+                <a href="#impact" class="nav-link text-secondary-600 hover:text-primary-600">Impact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden flex items-center">
+                <span class="text-2xl">☰</span>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 flex-col space-y-2">
+            <a href="#home" class="nav-link block text-secondary-600 hover:text-primary-600">Home</a>
+            <a href="#problem" class="nav-link block text-secondary-600 hover:text-primary-600">The Problem</a>
+            <a href="#solution" class="nav-link block text-secondary-600 hover:text-primary-600">The Solution</a>
+            <a href="#features" class="nav-link block text-secondary-600 hover:text-primary-600">Core Features</a>
+            <a href="#analytics" class="nav-link block text-secondary-600 hover:text-primary-600">Analytics</a>
+            <a href="#impact" class="nav-link block text-secondary-600 hover:text-primary-600">Impact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="bg-white py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-3xl md:text-5xl font-bold text-secondary-900 leading-tight">
+                    Dynamic Quotation and Job Order Management System for Manforest Graphics
+                </h1>
+                <p class="mt-4 text-lg md:text-xl text-secondary-700">
+                    A Capstone Project Proposal by FOURMULA
+                </p>
+                <div class="mt-8 flex justify-center gap-4 md:gap-8 flex-wrap">
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Fiona Bordador</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Cailiegh Coleta</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Claudine Del Mundo</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Sophia Carmel Sevillano</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-secondary-900">The Problem</h2>
+                <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
+                    The custom signage and graphics fabrication industry is fraught with operational challenges. For Manforest Graphics, this means a daily struggle with disconnected, manual processes.
+                </p>
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="text-3xl text-primary-600 mb-3">⏱️</div>
+                        <h3 class="text-xl font-semibold text-secondary-900">Manual Quotations</h3>
+                        <p class="mt-2 text-secondary-700">Inaccurate, time-consuming quotes due to volatile material prices and variable logistics costs (Luzon, Visayas, Mindanao) lead to lost revenue and client trust.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="text-3xl text-primary-600 mb-3">📁</div>
+                        <h3 class="text-xl font-semibold text-secondary-900">Disconnected Workflows</h3>
+                        <p class="mt-2 text-secondary-700">Data is siloed in spreadsheets and chat messages. This creates miscommunication between sales, design, production, and installation, leading to potential delays.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="text-3xl text-primary-600 mb-3">📉</div>
+                        <h3 class="text-xl font-semibold text-secondary-900">Lack of Insight</h3>
+                        <p class="mt-2 text-secondary-700">Management has difficulty tracking profitability per job, identifying production bottlenecks, or analyzing which services are most in-demand, hindering strategic planning.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-secondary-900">The Proposed Solution</h2>
+                <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
+                    A centralized, web-based Job Order Management System (JOMS) that streamlines the entire workflow, integrates a dynamic job costing engine, and provides powerful business analytics.
+                </p>
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold text-center text-secondary-900">Proposed Quote-to-Installation Workflow</h3>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 mt-8 text-center">
+                        <div class="bg-secondary-100 p-4 rounded-lg shadow w-60">
+                            <h4 class="font-bold text-secondary-800">1. Quote Request</h4>
+                            <p class="text-sm text-secondary-600">Client submits request via portal.</p>
+                        </div>
+                        <div class="text-2xl text-primary-500 font-bold">→</div>
+                        <div class="bg-primary-100 text-primary-800 p-4 rounded-lg shadow w-60">
+                            <h4 class="font-bold">2. Dynamic Costing</h4>
+                            <p class="text-sm">System calculates accurate cost (materials, labor, logistics).</p>
+                        </div>
+                        <div class="text-2xl text-primary-500 font-bold">→</div>
+                        <div class="bg-secondary-100 p-4 rounded-lg shadow w-60">
+                            <h4 class="font-bold text-secondary-800">3. Production</h4>
+                            <p class="text-sm text-secondary-600">Job status tracked (Design, Print, Fabricate).</p>
+                        </div>
+                        <div class="text-2xl text-primary-500 font-bold">→</div>
+                        <div class="bg-green-100 text-green-800 p-4 rounded-lg shadow w-60">
+                            <h4 class="font-bold">4. Installation</h4>
+                            <p class="text-sm">Job completed & logged. Client notified.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-secondary-900">Core Feature Simulation</h2>
+                <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
+                    This interactive demo simulates the key modules described in our proposal.
+                </p>
+                <div class="max-w-4xl mx-auto mt-12 bg-white rounded-lg shadow-xl overflow-hidden">
+                    <div class="flex border-b border-secondary-200">
+                        <button data-tab="tab-quote" class="tab-button flex-1 py-4 px-2 font-semibold text-primary-600 border-b-4 border-primary-600">
+                            Dynamic Quotation (Obj. 3.2.2)
+                        </button>
+                        <button data-tab="tab-tracker" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600">
+                            Production Tracker (Obj. 3.2.3)
+                        </button>
+                        <button data-tab="tab-roles" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600">
+                            Role-Based Access (Obj. 3.2.1)
+                        </button>
+                    </div>
+
+                    <div id="tab-content" class="p-8">
+                        <div id="tab-quote" class="tab-pane">
+                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Dynamic Quotation Engine</h3>
+                            <p class="text-secondary-700 mt-2 mb-6">This simulates the decision-support module. The final system's configurable parameters would include labor, complexity, and logistics.</p>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="material" class="block text-sm font-medium text-secondary-700">Material Type</label>
+                                        <select id="material" class_="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                            <option value="150">Sintra Board (₱150/sq ft)</option>
+                                            <option value="250">Acrylic (₱250/sq ft)</option>
+                                            <option value="100">Tarpaulin (₱100/sq ft)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="width" class="block text-sm font-medium text-secondary-700">Width (ft)</label>
+                                        <input type="number" id="width" value="4" class="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="height" class="block text-sm font-medium text-secondary-700">Height (ft)</label>
+                                        <input type="number" id="height" value="2" class="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                    </div>
+                                    <button id="calculate-quote" class="w-full bg-primary-600 text-white font-bold py-2 px-4 rounded-md hover:bg-primary-700">Calculate Estimate</button>
+                                </div>
+                                <div class="bg-secondary-50 p-6 rounded-lg">
+                                    <h4 class="text-lg font-semibold text-secondary-800">Estimated Cost</h4>
+                                    <p class="text-4xl font-bold text-primary-600 mt-4" id="quote-result">₱0.00</p>
+                                    <p class="text-sm text-secondary-600 mt-2">This is a base material estimate. Final quote would include labor, installation, and logistics.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tab-tracker" class="tab-pane hidden">
+                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Client Production Tracker</h3>
+                            <p class="text-secondary-700 mt-2 mb-8">This simulates the client-facing portal. Staff would update the status, and the client would see this real-time progress.</p>
+                            <div id="tracker-steps" class="flex items-center space-x-2 md:space-x-4">
+                                <div data-step="1" class="step flex-1 text-center">
+                                    <div class="step-circle w-12 h-12 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold mx-auto">1</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-primary-600">Pending Design</p>
+                                </div>
+                                <div class="flex-1 h-1 bg-secondary-200"></div>
+                                <div data-step="2" class="step flex-1 text-center opacity-50">
+                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto">2</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500">Proof Approved</p>
+                                </div>
+                                <div class="flex-1 h-1 bg-secondary-200"></div>
+                                <div data-step="3" class="step flex-1 text-center opacity-50">
+                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto">3</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500">In-Fabrication</p>
+                                </div>
+                                <div class="flex-1 h-1 bg-secondary-200"></div>
+                                <div data-step="4" class="step flex-1 text-center opacity-50">
+                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto">4</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500">Out for Installation</p>
+                                </div>
+                            </div>
+                            <button id="advance-tracker" class="mt-8 bg-secondary-600 text-white font-bold py-2 px-4 rounded-md hover:bg-secondary-700">Simulate: Advance to Next Step</button>
+                        </div>
+                        
+                        <div id="tab-roles" class="tab-pane hidden">
+                            <h3 class="text-xl font-semibold text-secondary-900">Role-Based Access & Client Portal</h3>
+                            <p class="text-secondary-700 mt-2 mb-6">The system will provide distinct views and permissions for each user type, ensuring data security and a focused user experience.</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-primary-600 font-bold text-xl mr-3">●</span>
+                                    <div>
+                                        <h4 class="font-semibold text-secondary-800">Client View</h4>
+                                        <p class="text-secondary-600">Submit new quote requests, upload design files, view status of active jobs (like the tracker), and approve proofs.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary-600 font-bold text-xl mr-3">●</span>
+                                    <div>
+                                        <h4 class="font-semibold text-secondary-800">Staff View (Sales/Production)</h4>
+                                        <p class="text-secondary-600">Use the quotation engine, convert quotes to job orders, update production status, and manage client communication.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary-600 font-bold text-xl mr-3">●</span>
+                                    <div>
+                                        <h4 class="font-semibold text-secondary-800">Management View</h4>
+                                        <p class="text-secondary-600">Access all job orders, configure quotation parameters (material costs, labor rates), and view the analytics dashboards.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analytics" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-secondary-900">Analytics Dashboard (Obj. 3.2.4)</h2>
+                <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
+                    The system will empower management to move from reactive to predictive decision-making using Prophet-based time-series analytics.
+                </p>
+                <div class="grid md:grid-cols-2 gap-12 mt-12">
+                    <div>
+                        <h3 class="text-xl font-semibold text-center text-secondary-900">Sales Trend Forecast</h3>
+                        <p class="text-center text-secondary-700 text-sm mb-4">Forecasts sales demand by product type.</p>
+                        <div class="chart-container">
+                            <canvas id="sales-chart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-center text-secondary-900">Material Cost Fluctuation</h3>
+                        <p class="text-center text-secondary-700 text-sm mb-4">Tracks historical material cost changes.</p>
+                        <div class="chart-container">
+                            <canvas id="material-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h3 class="text-xl font-semibold text-center text-secondary-900">Production Cycle Times</h3>
+                        <p class="text-center text-secondary-700 text-sm mb-4">Analyzes average time to complete different job types.</p>
+                        <div class="chart-container">
+                            <canvas id="cycle-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-secondary-900">Project Scope & Impact</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8 mt-12">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-secondary-900 border-b pb-2">In Scope (Features)</h3>
+                        <ul class="mt-4 space-y-2 list-disc list-inside text-secondary-700">
+                            <li>Web-based system (desktop)</li>
+                            <li>Dynamic quotation engine</li>
+                            <li>Job order management</li>
+                            <li>Production status tracking</li>
+                            <li>Client portal for requests & tracking</li>
+                            <li>Analytics dashboards</li>
+                        </ul>
+                    </div>
+                    <div class="bg-secondary-100 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-secondary-800 border-b border-secondary-300 pb-2">Out of Scope (Limitations)</h3>
+                        <ul class="mt-4 space-y-2 list-disc list-inside text-secondary-700">
+                            <li>Native iOS/Android mobile application</li>
+                            <li>Comprehensive inventory management</li>
+                            <li>Full integration with accounting (e.g., SAP)</li>
+                            <li>Deep analysis limited by academic term</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-bold text-center text-secondary-900 mt-20">Target Beneficiaries</h3>
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="text-4xl">🏢</div>
+                        <h4 class="text-lg font-semibold mt-2">Manforest Management</h4>
+                        <p class="text-secondary-700">Tools for accurate pricing, profitability analysis, and data-driven insights.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl">👥</div>
+                        <h4 class="text-lg font-semibold mt-2">Manforest Staff</h4>
+                        <p class="text-secondary-700">Streamlined workflow, reduced manual calculations, and less miscommunication.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl">🤝</div>
+                        <h4 class="text-lg font-semibold mt-2">Clients</h4>
+                        <p class="text-secondary-700">Transparent process, faster quotations, and real-time order tracking.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-secondary-800 text-secondary-200 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p>FOURMULA - BSIT Business Analytics</p>
+            <p class_="text-sm text-secondary-400">Academic Year 2025-2026</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('text-primary-600', 'border-primary-600');
+                        btn.classList.add('text-secondary-500', 'hover:text-primary-600');
+                    });
+                    
+                    button.classList.add('text-primary-600', 'border-primary-600');
+                    button.classList.remove('text-secondary-500', 'hover:text-primary-600');
+                    
+                    tabPanes.forEach(pane => {
+                        if (pane.id === tabId) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const calculateButton = document.getElementById('calculate-quote');
+            const materialSelect = document.getElementById('material');
+            const widthInput = document.getElementById('width');
+            const heightInput = document.getElementById('height');
+            const quoteResult = document.getElementById('quote-result');
+
+            calculateButton.addEventListener('click', () => {
+                const materialCost = parseFloat(materialSelect.value) || 0;
+                const width = parseFloat(widthInput.value) || 0;
+                const height = parseFloat(heightInput.value) || 0;
+                const totalCost = materialCost * width * height;
+                
+                quoteResult.textContent = new Intl.NumberFormat('en-PH', {
+                    style: 'currency',
+                    currency: 'PHP',
+                }).format(totalCost);
+            });
+            
+            let currentStep = 1;
+            const advanceTrackerButton = document.getElementById('advance-tracker');
+            const trackerSteps = document.querySelectorAll('#tracker-steps .step');
+            
+            advanceTrackerButton.addEventListener('click', () => {
+                currentStep++;
+                if (currentStep > 4) {
+                    currentStep = 1;
+                    trackerSteps.forEach((step, index) => {
+                        const circle = step.querySelector('.step-circle');
+                        const label = step.querySelector('.step-label');
+                        if (index === 0) {
+                            step.classList.remove('opacity-50');
+                            circle.classList.add('bg-primary-600', 'text-white');
+                            circle.classList.remove('bg-secondary-200', 'text-secondary-500');
+                            label.classList.add('text-primary-600');
+                            label.classList.remove('text-secondary-500');
+                        } else {
+                            step.classList.add('opacity-50');
+                            circle.classList.add('bg-secondary-200', 'text-secondary-500');
+                            circle.classList.remove('bg-primary-600', 'text-white');
+                            label.classList.add('text-secondary-500');
+                            label.classList.remove('text-primary-600');
+                        }
+                    });
+                } else {
+                    const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+                    if (currentStepEl) {
+                        const circle = currentStepEl.querySelector('.step-circle');
+                        const label = currentStepEl.querySelector('.step-label');
+                        currentStepEl.classList.remove('opacity-50');
+                        circle.classList.add('bg-primary-600', 'text-white');
+                        circle.classList.remove('bg-secondary-200', 'text-secondary-500');
+                        label.classList.add('text-primary-600');
+                        label.classList.remove('text-secondary-500');
+                    }
+                }
+            });
+
+            const commonChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                const label = this.getLabelForValue(value);
+                                return label.length > 16 ? label.substring(0, 16) + '...' : label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('sales-chart'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug (Hist)'],
+                    datasets: [{
+                        label: 'Historical Sales',
+                        data: [120, 130, 150, 180, 170, 160, 190, 210],
+                        borderColor: tailwind.colors.slate[400],
+                        backgroundColor: tailwind.colors.slate[100],
+                        fill: false,
+                    }, {
+                        label: 'Prophet Forecast',
+                        data: [null, null, null, null, null, null, null, 210, 220, 230, 215, 240],
+                        borderColor: tailwind.colors.blue[600],
+                        backgroundColor: tailwind.colors.blue[100],
+                        borderDash: [5, 5],
+                        fill: false,
+                    }]
+                },
+                options: commonChartOptions
+            });
+
+            new Chart(document.getElementById('material-chart'), {
+                type: 'line',
+                data: {
+                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'],
+                    datasets: [{
+                        label: 'Acrylic (per sq ft)',
+                        data: [220, 225, 230, 228, 240, 250, 245, 250],
+                        borderColor: tailwind.colors.red[500],
+                        fill: false,
+                    }, {
+                        label: 'Sintra Board (per sq ft)',
+                        data: [140, 140, 142, 145, 148, 150, 152, 150],
+                        borderColor: tailwind.colors.green[500],
+                        fill: false,
+                    }]
+                },
+                options: commonChartOptions
+            });
+
+            new Chart(document.getElementById('cycle-chart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Simple Tarpaulin', 'Sintra Signage', 'Acrylic Build-up', 'Nationwide Install'],
+                    datasets: [{
+                        label: 'Avg. Production Days',
+                        data: [1.5, 3, 7, 12],
+                        backgroundColor: [
+                            tailwind.colors.blue[300],
+                            tailwind.colors.blue[400],
+                            tailwind.colors.blue[500],
+                            tailwind.colors.blue[600],
+                        ],
+                    }]
+                },
+                options: commonChartOptions
+            });
+
+        });
+    </script>
+</body>
+</html>
