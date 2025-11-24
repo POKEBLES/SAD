@@ -3,27 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Integrated Job Order Management System for Manforest Graphics: Dynamic Quotation, Production Tracking, Payments, and Analytics.">
+    <meta name="theme-color" content="#1d4ed8">
     <title>Manforest JOMS - Capstone Proposal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Optional favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%231d4ed8'/%3E%3Cpath fill='white' d='M72 160h48v24H72zm64-88h48v24h-48zM72 96h80v24H72z'/%3E%3C/svg%3E" type="image/svg+xml">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <!-- Chosen Palette: Corporate Neutral (Slate & Blue) -->
     <!-- Application Structure Plan: A single-page, multi-section "interactive pitch" of the capstone proposal. Uses a top nav to link to sections: Problem, Solution, Features, Analytics, and Impact. This structure is chosen to make the *proposal itself* easily consumable by a stakeholder or professor, translating the document's sections into logical web sections. -->
-    <!-- Visualization & Content Choices: [Report Info: Manual Quotation Problem -> Goal: Simulate Solution -> Viz: HTML/JS Mock-up Calculator -> Interaction: User input (w, h) -> Justification: Demonstrates "Dynamic Quotation" objective 3.2.2 -> Library: Vanilla JS], [Report Info: Production Tracking -> Goal: Simulate Solution -> Viz: HTML/CSS Stepper -> Interaction: Button click advances state -> Justification: Demonstrates "Production Monitoring" objective 3.2.3 -> Library: Vanilla JS], [Report Info: Analytics Objective 3.2.4 -> Goal: Show change/compare -> Viz: Line/Bar Charts -> Interaction: Hover tooltips -> Justification: Directly visualizes the proposed analytics -> Library: Chart.js] -->
+    <!-- Visualization & Content Choices: [Report Info: Manual Quotation Problem -> Goal: Simulate Solution -> Viz: HTML/JS Mock-up Calculator -> Interaction: User input (w, h) -> Justification: Demonstrates "Dynamic Quotation" objective 3.2.3 -> Library: Vanilla JS], [Report Info: Production Tracking -> Goal: Simulate Solution -> Viz: HTML/CSS Stepper -> Interaction: Button click advances state -> Justification: Demonstrates "Production Monitoring" objective 3.2.4 -> Library: Vanilla JS], [Report Info: Payment/Registration -> Goal: Simulate Solution -> Viz: HTML Mock-up Invoice/Login -> Interaction: Tab click -> Justification: Demonstrates new objectives 3.2.1, 3.2.5, 3.2.6 -> Library: Vanilla JS], [Report Info: Analytics Objective 3.2.7 -> Goal: Show change/compare -> Viz: Line/Bar/Doughnut Charts -> Interaction: Hover tooltips -> Justification: Directly visualizes the proposed analytics -> Library: Chart.js] -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 600px;
+            max-width: 640px;
             margin-left: auto;
             margin-right: auto;
             height: 300px;
-            max-height: 400px;
+            max-height: 420px;
         }
         @media (min-width: 768px) {
             .chart-container {
-                height: 350px;
+                height: 360px;
             }
+        }
+        /* Utility patterns for consistent look (compatible without Tailwind processor) */
+        .btn { display:inline-flex; align-items:center; justify-content:center; font-weight:600; border-radius:0.375rem; padding:0.5rem 1rem; transition:background-color .2s ease, color .2s ease, transform .2s ease; outline: none; }
+        .btn:focus-visible { box-shadow:0 0 0 2px #fff, 0 0 0 4px rgba(29,78,216,0.6); }
+        .btn-primary { background:#2563eb; color:#fff; }
+        .btn-primary:hover { background:#1d4ed8; }
+        .btn-secondary { background:#e2e8f0; color:#0f172a; }
+        .btn-secondary:hover { background:#cbd5e1; }
+        .card { background:#fff; border-radius:0.75rem; box-shadow:0 1px 2px rgba(0,0,0,0.04); border:1px solid #e5e7eb; }
+        .nav-link.is-active { color:#1d4ed8; font-weight:600; }
+        /* Print styles for clean PDF exports */
+        @media print {
+            :root { color-scheme: light; }
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            header, #mobile-menu, .tab-button, .btn, .nav-link, #advance-tracker { display: none !important; }
+            .card { box-shadow: none !important; border: 1px solid #e5e7eb !important; }
+            .container, .max-w-4xl { max-width: 100% !important; }
+            .chart-container { height: 240px !important; max-height: 260px !important; }
+            .print-break-before { break-before: page; page-break-before: always; }
+            a { color: inherit !important; text-decoration: none !important; }
+            body { background: #fff !important; }
         }
     </style>
     <script>
@@ -44,23 +72,25 @@
 </head>
 <body class="bg-secondary-50 font-sans text-secondary-800">
     
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur border-b border-secondary-200 sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold text-primary-600">FOURMULA</div>
-            <div class="hidden md:flex space-x-6">
+            <a href="#home" class="text-2xl font-bold text-primary-700" aria-label="Go to Home">FOURMULA</a>
+            <div class="hidden md:flex space-x-6 items-center">
                 <a href="#home" class="nav-link text-secondary-600 hover:text-primary-600">Home</a>
+                <a href="#summary" class="nav-link text-secondary-600 hover:text-primary-600">Summary</a>
                 <a href="#problem" class="nav-link text-secondary-600 hover:text-primary-600">The Problem</a>
                 <a href="#solution" class="nav-link text-secondary-600 hover:text-primary-600">The Solution</a>
                 <a href="#features" class="nav-link text-secondary-600 hover:text-primary-600">Core Features</a>
                 <a href="#analytics" class="nav-link text-secondary-600 hover:text-primary-600">Analytics</a>
                 <a href="#impact" class="nav-link text-secondary-600 hover:text-primary-600">Impact</a>
             </div>
-            <button id="mobile-menu-button" class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="md:hidden flex items-center" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle navigation menu">
                 <span class="text-2xl">☰</span>
             </button>
         </nav>
         <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 flex-col space-y-2">
             <a href="#home" class="nav-link block text-secondary-600 hover:text-primary-600">Home</a>
+            <a href="#summary" class="nav-link block text-secondary-600 hover:text-primary-600">Summary</a>
             <a href="#problem" class="nav-link block text-secondary-600 hover:text-primary-600">The Problem</a>
             <a href="#solution" class="nav-link block text-secondary-600 hover:text-primary-600">The Solution</a>
             <a href="#features" class="nav-link block text-secondary-600 hover:text-primary-600">Core Features</a>
@@ -72,17 +102,64 @@
     <main>
         <section id="home" class="bg-white py-20 md:py-32">
             <div class="container mx-auto px-6 text-center">
-                <h1 class="text-3xl md:text-5xl font-bold text-secondary-900 leading-tight">
-                    Dynamic Quotation and Job Order Management System for Manforest Graphics
+                <h1 class="text-3xl md:text-5xl font-extrabold text-secondary-900 leading-tight">
+                    Integrated Job Order Management System for Manforest Graphics
                 </h1>
-                <p class="mt-4 text-lg md:text-xl text-secondary-700">
-                    A Capstone Project Proposal by FOURMULA
+                <p class="mt-4 text-lg md:text-xl text-secondary-700 max-w-3xl mx-auto">
+                    Dynamic Quotation, Production Monitoring, Secure Payments, and Business Analytics
                 </p>
                 <div class="mt-8 flex justify-center gap-4 md:gap-8 flex-wrap">
-                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Fiona Bordador</span>
-                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Cailiegh Coleta</span>
-                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Claudine Del Mundo</span>
-                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full">Sophia Carmel Sevillano</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full text-sm font-medium">Fiona Bordador</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full text-sm font-medium">Cailiegh Coleta</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full text-sm font-medium">Claudine Del Mundo</span>
+                    <span class="bg-secondary-100 text-secondary-800 px-4 py-1 rounded-full text-sm font-medium">Sophia Carmel Sevillano</span>
+                </div>
+                <div class="mt-8 flex flex-wrap justify-center gap-3">
+                    <a href="#features" class="btn btn-primary">Explore Demo</a>
+                    <a href="#analytics" class="btn btn-secondary">View Analytics</a>
+                    <button type="button" onclick="window.print()" class="btn btn-secondary">Print PDF</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="summary" class="py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-secondary-900">Executive Summary</h2>
+                <div class="grid md:grid-cols-3 gap-6 mt-8">
+                    <div class="card p-6 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-secondary-900">Overview</h3>
+                        <p class="mt-3 text-secondary-700">Manforest Graphics needs accurate pricing, faster approvals, and real-time visibility across quotation, production, and payments. Our Job Order Management System (JOMS) centralizes operations and provides actionable analytics for better decisions.</p>
+                        <div class="mt-6 grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold text-secondary-900">Key Features</h4>
+                                <ul class="mt-2 text-secondary-700 list-disc list-inside">
+                                    <li>Dynamic quotation with material-based costing</li>
+                                    <li>Client portal for requests, approvals, and tracking</li>
+                                    <li>Integrated online payments (DP & balance)</li>
+                                    <li>Production status monitoring</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-secondary-900">Expected Outcomes</h4>
+                                <ul class="mt-2 text-secondary-700 list-disc list-inside">
+                                    <li>Faster quote-to-approval cycle</li>
+                                    <li>Improved cash flow via timely payments</li>
+                                    <li>Reduced miscommunication across teams</li>
+                                    <li>Data-driven pricing and demand insights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="text-xl font-semibold text-secondary-900">Project Details</h3>
+                        <ul class="mt-3 text-secondary-700 space-y-2">
+                            <li><span class="font-semibold">Client:</span> Manforest Graphics</li>
+                            <li><span class="font-semibold">Team:</span> FOURMULA</li>
+                            <li><span class="font-semibold">Focus:</span> Quotation, Tracking, Payments, Analytics</li>
+                            <li><span class="font-semibold">Tech:</span> Web app, Chart.js analytics</li>
+                        </ul>
+                        <p class="mt-4 text-secondary-600 text-sm">This summary is optimized for printing. Use the “Print PDF” button above.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -91,23 +168,28 @@
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-secondary-900">The Problem</h2>
                 <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
-                    The custom signage and graphics fabrication industry is fraught with operational challenges. For Manforest Graphics, this means a daily struggle with disconnected, manual processes.
+                    The custom signage industry faces operational challenges. For Manforest, this means a struggle with manual processes, payment delays, and disconnected data.
                 </p>
-                <div class="grid md:grid-cols-3 gap-8 mt-12">
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="grid md:grid-cols-4 gap-8 mt-12">
+                    <div class="card p-6 transform transition-transform hover:scale-105">
                         <div class="text-3xl text-primary-600 mb-3">⏱️</div>
                         <h3 class="text-xl font-semibold text-secondary-900">Manual Quotations</h3>
-                        <p class="mt-2 text-secondary-700">Inaccurate, time-consuming quotes due to volatile material prices and variable logistics costs (Luzon, Visayas, Mindanao) lead to lost revenue and client trust.</p>
+                        <p class="mt-2 text-secondary-700">Inaccurate, slow quotes due to volatile material/logistics costs lead to lost revenue.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="card p-6 transform transition-transform hover:scale-105">
                         <div class="text-3xl text-primary-600 mb-3">📁</div>
                         <h3 class="text-xl font-semibold text-secondary-900">Disconnected Workflows</h3>
-                        <p class="mt-2 text-secondary-700">Data is siloed in spreadsheets and chat messages. This creates miscommunication between sales, design, production, and installation, leading to potential delays.</p>
+                        <p class="mt-2 text-secondary-700">Data siloed in spreadsheets/chat creates miscommunication between sales, design, and production.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="card p-6 transform transition-transform hover:scale-105">
+                        <div class="text-3xl text-primary-600 mb-3">💳</div>
+                        <h3 class="text-xl font-semibold text-secondary-900">Payment Chasing</h3>
+                        <p class="mt-2 text-secondary-700">Manual payment tracking (bank transfers) delays cash flow and adds administrative overhead.</p>
+                    </div>
+                    <div class="card p-6 transform transition-transform hover:scale-105">
                         <div class="text-3xl text-primary-600 mb-3">📉</div>
                         <h3 class="text-xl font-semibold text-secondary-900">Lack of Insight</h3>
-                        <p class="mt-2 text-secondary-700">Management has difficulty tracking profitability per job, identifying production bottlenecks, or analyzing which services are most in-demand, hindering strategic planning.</p>
+                        <p class="mt-2 text-secondary-700">Difficulty tracking profitability, bottlenecks, or revenue trends hinders strategic planning.</p>
                     </div>
                 </div>
             </div>
@@ -117,29 +199,34 @@
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-secondary-900">The Proposed Solution</h2>
                 <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
-                    A centralized, web-based Job Order Management System (JOMS) that streamlines the entire workflow, integrates a dynamic job costing engine, and provides powerful business analytics.
+                    A centralized, web-based Job Order Management System (JOMS) that streamlines the entire workflow from quotation to payment, providing powerful business analytics.
                 </p>
                 <div class="mt-12">
                     <h3 class="text-xl font-semibold text-center text-secondary-900">Proposed Quote-to-Installation Workflow</h3>
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 mt-8 text-center">
-                        <div class="bg-secondary-100 p-4 rounded-lg shadow w-60">
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 mt-8 text-center flex-wrap">
+                        <div class="bg-secondary-100 p-3 rounded-lg shadow w-52">
                             <h4 class="font-bold text-secondary-800">1. Quote Request</h4>
-                            <p class="text-sm text-secondary-600">Client submits request via portal.</p>
+                            <p class="text-sm text-secondary-600">Client registers & submits.</p>
                         </div>
                         <div class="text-2xl text-primary-500 font-bold">→</div>
-                        <div class="bg-primary-100 text-primary-800 p-4 rounded-lg shadow w-60">
+                        <div class="bg-primary-100 text-primary-800 p-3 rounded-lg shadow w-52">
                             <h4 class="font-bold">2. Dynamic Costing</h4>
-                            <p class="text-sm">System calculates accurate cost (materials, labor, logistics).</p>
+                            <p class="text-sm">System calculates accurate cost.</p>
                         </div>
                         <div class="text-2xl text-primary-500 font-bold">→</div>
-                        <div class="bg-secondary-100 p-4 rounded-lg shadow w-60">
-                            <h4 class="font-bold text-secondary-800">3. Production</h4>
-                            <p class="text-sm text-secondary-600">Job status tracked (Design, Print, Fabricate).</p>
+                        <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg shadow w-52">
+                            <h4 class="font-bold">3. DP & Approval</h4>
+                            <p class="text-sm">Client pays 50% DP online.</p>
                         </div>
                         <div class="text-2xl text-primary-500 font-bold">→</div>
-                        <div class="bg-green-100 text-green-800 p-4 rounded-lg shadow w-60">
-                            <h4 class="font-bold">4. Installation</h4>
-                            <p class="text-sm">Job completed & logged. Client notified.</p>
+                        <div class="bg-indigo-100 text-indigo-800 p-3 rounded-lg shadow w-52">
+                            <h4 class="font-bold">4. Production</h4>
+                            <p class="text-sm text-secondary-600">Job status tracked (Design, Print).</p>
+                        </div>
+                        <div class="text-2xl text-primary-500 font-bold">→</div>
+                        <div class="bg-green-100 text-green-800 p-3 rounded-lg shadow w-52">
+                            <h4 class="font-bold">5. Final Payment</h4>
+                            <p class="text-sm">Client pays balance online.</p>
                         </div>
                     </div>
                 </div>
@@ -153,27 +240,30 @@
                     This interactive demo simulates the key modules described in our proposal.
                 </p>
                 <div class="max-w-4xl mx-auto mt-12 bg-white rounded-lg shadow-xl overflow-hidden">
-                    <div class="flex border-b border-secondary-200">
-                        <button data-tab="tab-quote" class="tab-button flex-1 py-4 px-2 font-semibold text-primary-600 border-b-4 border-primary-600">
-                            Dynamic Quotation (Obj. 3.2.2)
+                    <div class="flex border-b border-secondary-200 flex-wrap" role="tablist" aria-label="Feature tabs">
+                        <button id="tabbtn-quote" role="tab" aria-selected="true" aria-controls="tab-quote" data-tab="tab-quote" class="tab-button flex-1 py-4 px-2 font-semibold text-primary-600 border-b-4 border-primary-600 whitespace-nowrap min-w-[120px] flex items-center justify-center gap-2">
+                            <span class="text-xl">🧮</span> Quotation
                         </button>
-                        <button data-tab="tab-tracker" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600">
-                            Production Tracker (Obj. 3.2.3)
+                        <button id="tabbtn-tracker" role="tab" aria-selected="false" aria-controls="tab-tracker" data-tab="tab-tracker" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600 whitespace-nowrap min-w-[120px] flex items-center justify-center gap-2">
+                            <span class="text-xl">🚚</span> Tracker
                         </button>
-                        <button data-tab="tab-roles" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600">
-                            Role-Based Access (Obj. 3.2.1)
+                        <button id="tabbtn-payment" role="tab" aria-selected="false" aria-controls="tab-payment" data-tab="tab-payment" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600 whitespace-nowrap min-w-[120px] flex items-center justify-center gap-2">
+                            <span class="text-xl">💳</span> Payment
+                        </button>
+                        <button id="tabbtn-roles" role="tab" aria-selected="false" aria-controls="tab-roles" data-tab="tab-roles" class="tab-button flex-1 py-4 px-2 font-semibold text-secondary-500 hover:text-primary-600 whitespace-nowrap min-w-[120px] flex items-center justify-center gap-2">
+                            <span class="text-xl">👤</span> Access
                         </button>
                     </div>
 
                     <div id="tab-content" class="p-8">
-                        <div id="tab-quote" class="tab-pane">
-                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Dynamic Quotation Engine</h3>
-                            <p class="text-secondary-700 mt-2 mb-6">This simulates the decision-support module. The final system's configurable parameters would include labor, complexity, and logistics.</p>
+                        <div id="tab-quote" class="tab-pane" role="tabpanel" aria-labelledby="tabbtn-quote">
+                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Dynamic Quotation Engine (Obj. 3.2.3)</h3>
+                            <p class="text-secondary-700 mt-2 mb-6">Simulates the decision-support module. Final system would add labor, complexity, and logistics.</p>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="space-y-4">
                                     <div>
                                         <label for="material" class="block text-sm font-medium text-secondary-700">Material Type</label>
-                                        <select id="material" class_="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                                        <select id="material" class="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                                             <option value="150">Sintra Board (₱150/sq ft)</option>
                                             <option value="250">Acrylic (₱250/sq ft)</option>
                                             <option value="100">Tarpaulin (₱100/sq ft)</option>
@@ -187,121 +277,161 @@
                                         <label for="height" class="block text-sm font-medium text-secondary-700">Height (ft)</label>
                                         <input type="number" id="height" value="2" class="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                                     </div>
-                                    <button id="calculate-quote" class="w-full bg-primary-600 text-white font-bold py-2 px-4 rounded-md hover:bg-primary-700">Calculate Estimate</button>
+                                    <button id="calculate-quote" class="btn btn-primary w-full">Calculate Estimate</button>
                                 </div>
                                 <div class="bg-secondary-50 p-6 rounded-lg">
                                     <h4 class="text-lg font-semibold text-secondary-800">Estimated Cost</h4>
                                     <p class="text-4xl font-bold text-primary-600 mt-4" id="quote-result">₱0.00</p>
-                                    <p class="text-sm text-secondary-600 mt-2">This is a base material estimate. Final quote would include labor, installation, and logistics.</p>
+                                    <p class="text-sm text-secondary-600 mt-2">Base material estimate. Final quote would include labor & logistics.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div id="tab-tracker" class="tab-pane hidden">
-                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Client Production Tracker</h3>
-                            <p class="text-secondary-700 mt-2 mb-8">This simulates the client-facing portal. Staff would update the status, and the client would see this real-time progress.</p>
+                        <div id="tab-tracker" class="tab-pane hidden" role="tabpanel" aria-labelledby="tabbtn-tracker">
+                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Client Production Tracker (Obj. 3.2.4)</h3>
+                            <p class="text-secondary-700 mt-2 mb-8">Simulates the client-facing portal for real-time progress updates from staff.</p>
                             <div id="tracker-steps" class="flex items-center space-x-2 md:space-x-4">
                                 <div data-step="1" class="step flex-1 text-center">
-                                    <div class="step-circle w-12 h-12 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold mx-auto">1</div>
-                                    <p class="step-label text-sm font-medium mt-2 text-primary-600">Pending Design</p>
+                                    <div class="step-circle w-12 h-12 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold mx-auto transition-colors">1</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-primary-600 transition-colors">Pending Design</p>
                                 </div>
                                 <div class="flex-1 h-1 bg-secondary-200"></div>
                                 <div data-step="2" class="step flex-1 text-center opacity-50">
-                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto">2</div>
-                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500">Proof Approved</p>
+                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto transition-colors">2</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500 transition-colors">Proof Approved</p>
                                 </div>
                                 <div class="flex-1 h-1 bg-secondary-200"></div>
                                 <div data-step="3" class="step flex-1 text-center opacity-50">
-                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto">3</div>
-                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500">In-Fabrication</p>
+                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto transition-colors">3</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500 transition-colors">In-Fabrication</p>
                                 </div>
                                 <div class="flex-1 h-1 bg-secondary-200"></div>
                                 <div data-step="4" class="step flex-1 text-center opacity-50">
-                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto">4</div>
-                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500">Out for Installation</p>
+                                    <div class="step-circle w-12 h-12 rounded-full bg-secondary-200 text-secondary-500 flex items-center justify-center font-bold mx-auto transition-colors">4</div>
+                                    <p class="step-label text-sm font-medium mt-2 text-secondary-500 transition-colors">Out for Installation</p>
                                 </div>
                             </div>
-                            <button id="advance-tracker" class="mt-8 bg-secondary-600 text-white font-bold py-2 px-4 rounded-md hover:bg-secondary-700">Simulate: Advance to Next Step</button>
+                            <button id="advance-tracker" class="mt-8 btn btn-secondary">Simulate: Advance to Next Step</button>
                         </div>
                         
-                        <div id="tab-roles" class="tab-pane hidden">
-                            <h3 class="text-xl font-semibold text-secondary-900">Role-Based Access & Client Portal</h3>
-                            <p class="text-secondary-700 mt-2 mb-6">The system will provide distinct views and permissions for each user type, ensuring data security and a focused user experience.</p>
-                            <ul class="space-y-4">
-                                <li class="flex items-start">
-                                    <span class="text-primary-600 font-bold text-xl mr-3">●</span>
-                                    <div>
-                                        <h4 class="font-semibold text-secondary-800">Client View</h4>
-                                        <p class="text-secondary-600">Submit new quote requests, upload design files, view status of active jobs (like the tracker), and approve proofs.</p>
+                        <div id="tab-payment" class="tab-pane hidden" role="tabpanel" aria-labelledby="tabbtn-payment">
+                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Payment & Transaction (Obj. 3.2.5 & 3.2.6)</h3>
+                            <p class="text-secondary-700 mt-2 mb-6">Simulates the client payment portal and transaction log.</p>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="card p-6">
+                                    <h4 class="text-lg font-semibold text-secondary-800">Job Order #JO-1024</h4>
+                                    <p class="text-secondary-600">Large Acrylic Signage</p>
+                                    <p class="text-3xl font-bold text-secondary-900 mt-4">₱25,000.00</p>
+                                    <p class="text-md font-semibold text-yellow-700">50% Down Payment Required: ₱12,500.00</p>
+                                    
+                                    <div class="mt-6 space-y-3">
+                                        <button class="btn w-full bg-blue-600 text-white hover:bg-blue-700">Pay with PayMongo</button>
+                                        <button class="btn w-full bg-purple-600 text-white hover:bg-purple-700">Pay with Maya</button>
                                     </div>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-primary-600 font-bold text-xl mr-3">●</span>
-                                    <div>
-                                        <h4 class="font-semibold text-secondary-800">Staff View (Sales/Production)</h4>
-                                        <p class="text-secondary-600">Use the quotation engine, convert quotes to job orders, update production status, and manage client communication.</p>
-                                    </div>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-primary-600 font-bold text-xl mr-3">●</span>
-                                    <div>
-                                        <h4 class="font-semibold text-secondary-800">Management View</h4>
-                                        <p class="text-secondary-600">Access all job orders, configure quotation parameters (material costs, labor rates), and view the analytics dashboards.</p>
-                                    </div>
-                                </li>
-                            </ul>
+                                </div>
+                                <div class="bg-secondary-50 p-6 rounded-lg">
+                                    <h4 class="text-lg font-semibold text-secondary-800">Transaction History</h4>
+                                    <ul class="mt-4 space-y-3">
+                                        <li class="text-sm">
+                                            <p class="font-semibold text-green-700">PAYMENT_SUCCESS (₱12,500.00)</p>
+                                            <p class="text-secondary-600">Nov 17, 2025 - PayMongo - Ref: pm_123abc</p>
+                                        </li>
+                                        <li class="text-sm">
+                                            <p class="font-semibold text-secondary-700">JOB_ORDER_CREATED (₱25,000.00)</p>
+                                            <p class="text-secondary-600">Nov 17, 2025 - Invoice #INV-1024</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="tab-roles" class="tab-pane hidden" role="tabpanel" aria-labelledby="tabbtn-roles">
+                            <h3 class="text-xl font-semibold text-secondary-900">Mock-up: Client Registration & Access (Obj. 3.2.1)</h3>
+                            <p class="text-secondary-700 mt-2 mb-6">Simulates the client portal login/registration and describes the role-based views.</p>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-secondary-50 p-6 rounded-lg">
+                                    <h4 class="text-lg font-semibold text-center text-secondary-800 mb-4">Client Portal Access</h4>
+                                    <input type="email" placeholder="client-email@manforest.com" class="mt-1 block w-full rounded-md border-secondary-300 shadow-sm sm:text-sm">
+                                    <input type="password" placeholder="••••••••" class="mt-3 block w-full rounded-md border-secondary-300 shadow-sm sm:text-sm">
+                                    <button class="mt-4 w-full btn btn-primary">Login</button>
+                                    <button class="mt-2 w-full btn btn-secondary">Register New Account</button>
+                                </div>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <span class="text-primary-600 font-bold text-xl mr-3">●</span>
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-800">Client View</h4>
+                                            <p class="text-secondary-600 text-sm">Register, login, submit quotes, track orders, approve proofs, and pay invoices.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-primary-600 font-bold text-xl mr-3">●</span>
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-800">Staff View</h4>
+                                            <p class="text-secondary-600 text-sm">Use quotation engine, convert quotes to jobs, update production status, and verify payments.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-primary-600 font-bold text-xl mr-3">●</span>
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-800">Management View</h4>
+                                            <p class="text-secondary-600 text-sm">Access all data, configure costs, manage users, and view all analytics dashboards.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="analytics" class="py-20 bg-white">
+        <section id="analytics" class="py-20 bg-white print-break-before">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center text-secondary-900">Analytics Dashboard (Obj. 3.2.4)</h2>
+                <h2 class="text-3xl font-bold text-center text-secondary-900">Analytics Dashboard (Obj. 3.2.7)</h2>
                 <p class="text-center mt-4 text-lg text-secondary-700 max-w-3xl mx-auto">
-                    The system will empower management to move from reactive to predictive decision-making using Prophet-based time-series analytics.
+                    The system will empower management with predictive decision-making using Prophet-based time-series analytics on sales, materials, and new revenue data.
                 </p>
                 <div class="grid md:grid-cols-2 gap-12 mt-12">
-                    <div>
+                    <div class="card p-6">
                         <h3 class="text-xl font-semibold text-center text-secondary-900">Sales Trend Forecast</h3>
                         <p class="text-center text-secondary-700 text-sm mb-4">Forecasts sales demand by product type.</p>
-                        <div class="chart-container">
-                            <canvas id="sales-chart"></canvas>
-                        </div>
+                        <div class="chart-container"><canvas id="sales-chart"></canvas></div>
                     </div>
-                    <div>
+                    <div class="card p-6">
+                        <h3 class="text-xl font-semibold text-center text-secondary-900">Revenue vs. Forecast</h3>
+                        <p class="text-center text-secondary-700 text-sm mb-4">Tracks actual collected revenue against targets.</p>
+                        <div class="chart-container"><canvas id="revenue-chart"></canvas></div>
+                    </div>
+                    <div class="card p-6">
                         <h3 class="text-xl font-semibold text-center text-secondary-900">Material Cost Fluctuation</h3>
                         <p class="text-center text-secondary-700 text-sm mb-4">Tracks historical material cost changes.</p>
-                        <div class="chart-container">
-                            <canvas id="material-chart"></canvas>
-                        </div>
+                        <div class="chart-container"><canvas id="material-chart"></canvas></div>
                     </div>
-                    <div class="md:col-span-2">
+                    <div class="card p-6">
                         <h3 class="text-xl font-semibold text-center text-secondary-900">Production Cycle Times</h3>
                         <p class="text-center text-secondary-700 text-sm mb-4">Analyzes average time to complete different job types.</p>
-                        <div class="chart-container">
-                            <canvas id="cycle-chart"></canvas>
-                        </div>
+                        <div class="chart-container"><canvas id="cycle-chart"></canvas></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="impact" class="py-20">
+        <section id="impact" class="py-20 print-break-before">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-secondary-900">Project Scope & Impact</h2>
                 
                 <div class="grid md:grid-cols-2 gap-8 mt-12">
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="card p-6">
                         <h3 class="text-xl font-semibold text-secondary-900 border-b pb-2">In Scope (Features)</h3>
                         <ul class="mt-4 space-y-2 list-disc list-inside text-secondary-700">
-                            <li>Web-based system (desktop)</li>
+                            <li>Client registration and authentication</li>
                             <li>Dynamic quotation engine</li>
-                            <li>Job order management</li>
-                            <li>Production status tracking</li>
+                            <li>Job order management & production tracking</li>
                             <li>Client portal for requests & tracking</li>
-                            <li>Analytics dashboards</li>
+                            <li>Payment integration (PayMongo, Maya)</li>
+                            <li>Transaction logging and management</li>
+                            <li>Analytics dashboards (Sales, Revenue, etc.)</li>
                         </ul>
                     </div>
                     <div class="bg-secondary-100 p-6 rounded-lg">
@@ -310,6 +440,7 @@
                             <li>Native iOS/Android mobile application</li>
                             <li>Comprehensive inventory management</li>
                             <li>Full integration with accounting (e.g., SAP)</li>
+                            <li>Automated refund processing or subscriptions</li>
                             <li>Deep analysis limited by academic term</li>
                         </ul>
                     </div>
@@ -317,20 +448,20 @@
 
                 <h3 class="text-2xl font-bold text-center text-secondary-900 mt-20">Target Beneficiaries</h3>
                 <div class="grid md:grid-cols-3 gap-8 mt-12">
-                    <div class="text-center">
+                    <div class="text-center p-4">
                         <div class="text-4xl">🏢</div>
                         <h4 class="text-lg font-semibold mt-2">Manforest Management</h4>
-                        <p class="text-secondary-700">Tools for accurate pricing, profitability analysis, and data-driven insights.</p>
+                        <p class="text-secondary-700">Tools for accurate pricing, improved cash flow, payment tracking, and full-pipeline data insights.</p>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center p-4">
                         <div class="text-4xl">👥</div>
                         <h4 class="text-lg font-semibold mt-2">Manforest Staff</h4>
-                        <p class="text-secondary-700">Streamlined workflow, reduced manual calculations, and less miscommunication.</p>
+                        <p class="text-secondary-700">Streamlined workflow, less manual data entry, and clear status on jobs and payments.</p>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center p-4">
                         <div class="text-4xl">🤝</div>
                         <h4 class="text-lg font-semibold mt-2">Clients</h4>
-                        <p class="text-secondary-700">Transparent process, faster quotations, and real-time order tracking.</p>
+                        <p class="text-secondary-700">Transparent process, faster quotations, real-time tracking, and secure online payment options.</p>
                     </div>
                 </div>
             </div>
@@ -340,7 +471,7 @@
     <footer class="bg-secondary-800 text-secondary-200 py-12">
         <div class="container mx-auto px-6 text-center">
             <p>FOURMULA - BSIT Business Analytics</p>
-            <p class_="text-sm text-secondary-400">Academic Year 2025-2026</p>
+            <p class="text-sm text-secondary-400">Academic Year 2025-2026</p>
         </div>
     </footer>
 
@@ -351,6 +482,8 @@
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
             });
 
             const navLinks = document.querySelectorAll('.nav-link');
@@ -358,9 +491,29 @@
                 link.addEventListener('click', () => {
                     if (!mobileMenu.classList.contains('hidden')) {
                         mobileMenu.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
                     }
                 });
             });
+
+            // Scrollspy for active nav link
+            const linkMap = new Map();
+            navLinks.forEach(link => {
+                const id = link.getAttribute('href');
+                if (id && id.startsWith('#')) linkMap.set(id, link);
+            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = `#${entry.target.id}`;
+                    const link = linkMap.get(id);
+                    if (!link) return;
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(l => l.classList.remove('is-active'));
+                        link.classList.add('is-active');
+                    }
+                });
+            }, { root: null, threshold: 0.55 });
+            document.querySelectorAll('main section[id]').forEach(sec => observer.observe(sec));
 
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabPanes = document.querySelectorAll('.tab-pane');
@@ -372,10 +525,12 @@
                     tabButtons.forEach(btn => {
                         btn.classList.remove('text-primary-600', 'border-primary-600');
                         btn.classList.add('text-secondary-500', 'hover:text-primary-600');
+                        btn.setAttribute('aria-selected', 'false');
                     });
                     
                     button.classList.add('text-primary-600', 'border-primary-600');
                     button.classList.remove('text-secondary-500', 'hover:text-primary-600');
+                    button.setAttribute('aria-selected', 'true');
                     
                     tabPanes.forEach(pane => {
                         if (pane.id === tabId) {
@@ -443,7 +598,8 @@
                     }
                 }
             });
-
+            
+            const pesoFormatter = (value) => new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', notation: 'compact' }).format(value);
             const commonChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -456,9 +612,6 @@
                     },
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    },
                     x: {
                         ticks: {
                             callback: function(value, index, ticks) {
@@ -469,6 +622,23 @@
                     }
                 }
             };
+            
+            const pesoScales = {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: pesoFormatter }
+                },
+                x: commonChartOptions.scales.x
+            };
+            
+            const pesoTooltip = {
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    tooltip: {
+                        callbacks: { label: (context) => pesoFormatter(context.parsed.y) }
+                    }
+                }
+            };
 
             new Chart(document.getElementById('sales-chart'), {
                 type: 'line',
@@ -476,20 +646,35 @@
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug (Hist)'],
                     datasets: [{
                         label: 'Historical Sales',
-                        data: [120, 130, 150, 180, 170, 160, 190, 210],
+                        data: [120000, 130000, 150000, 180000, 170000, 160000, 190000, 210000],
                         borderColor: tailwind.colors.slate[400],
-                        backgroundColor: tailwind.colors.slate[100],
                         fill: false,
                     }, {
                         label: 'Prophet Forecast',
-                        data: [null, null, null, null, null, null, null, 210, 220, 230, 215, 240],
+                        data: [null, null, null, null, null, null, null, 210000, 220000, 230000, 215000, 240000],
                         borderColor: tailwind.colors.blue[600],
-                        backgroundColor: tailwind.colors.blue[100],
                         borderDash: [5, 5],
                         fill: false,
                     }]
                 },
-                options: commonChartOptions
+                options: { ...commonChartOptions, scales: pesoScales, ...pesoTooltip }
+            });
+
+            new Chart(document.getElementById('revenue-chart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [{
+                        label: 'Revenue Forecast',
+                        data: [100000, 110000, 130000, 160000, 150000, 140000, 170000, 190000],
+                        backgroundColor: tailwind.colors.slate[300],
+                    }, {
+                        label: 'Actual Collected',
+                        data: [95000, 105000, 140000, 150000, 155000, 130000, 160000, 195000],
+                        backgroundColor: tailwind.colors.green[500],
+                    }]
+                },
+                options: { ...commonChartOptions, scales: pesoScales, ...pesoTooltip }
             });
 
             new Chart(document.getElementById('material-chart'), {
@@ -503,13 +688,30 @@
                         fill: false,
                     }, {
                         label: 'Sintra Board (per sq ft)',
-                        data: [140, 140, 142, 145, 148, 150, 152, 150],
+                        data: [140, 142, 145, 148, 150, 152, 150, 150],
                         borderColor: tailwind.colors.green[500],
                         fill: false,
                     }]
                 },
-                options: commonChartOptions
+                options: { ...commonChartOptions, scales: pesoScales, ...pesoTooltip }
             });
+            
+            const daysTooltip = {
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    tooltip: {
+                        callbacks: { label: (context) => `${context.parsed.y} days` }
+                    }
+                }
+            };
+            
+            const daysScales = {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: (val) => `${val} days` }
+                },
+                x: commonChartOptions.scales.x
+            };
 
             new Chart(document.getElementById('cycle-chart'), {
                 type: 'bar',
@@ -526,7 +728,7 @@
                         ],
                     }]
                 },
-                options: commonChartOptions
+                options: { ...commonChartOptions, scales: daysScales, ...daysTooltip }
             });
 
         });
